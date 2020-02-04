@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 
+import androidx.annotation.NonNull;
+
 import cn.wbnull.hellotlj.R;
 import cn.wbnull.hellotlj.anno.ActivityLayoutInject;
 import cn.wbnull.hellotlj.presenter.MainPresenter;
@@ -26,10 +28,7 @@ public class MainActivity extends BaseMvpActivity<IMainView, MainPresenter> impl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (hasPermission()) {
-            initTimer();
-            timeStart();
-        }
+        initTimer();
     }
 
     @Override
@@ -38,6 +37,10 @@ public class MainActivity extends BaseMvpActivity<IMainView, MainPresenter> impl
     }
 
     private void initTimer() {
+        if (!hasPermission()) {
+            return;
+        }
+
         timer = new CountDownTimer(1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -48,18 +51,25 @@ public class MainActivity extends BaseMvpActivity<IMainView, MainPresenter> impl
                 CommonTools.startNewActivity(LoginActivity.class);
             }
         };
+
+        new Handler(getMainLooper()).post(() -> timer.start());
     }
 
-    public void timeStart() {
-        new Handler(getMainLooper()).post(() -> timer.start());
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        initTimer();
+        //防止因为授权完成后全屏失效
+        setHideVirtualKey();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (hasPermission()) {
-            initTimer();
-        }
+        initTimer();
+        //防止因为授权完成后全屏失效
+        setHideVirtualKey();
     }
 }

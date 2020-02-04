@@ -12,7 +12,7 @@ import java.io.File;
  */
 public class CommonConstants {
 
-    private static final String DEMO_PATH = Environment.getExternalStorageDirectory() + "/AndroidDemo" + File.separator;
+    private static final String DEMO_PATH = Environment.getExternalStorageDirectory() + "/HelloTlj" + File.separator;
     public static final String LOG_PATH = DEMO_PATH + File.separator + "logs" + File.separator;
     public static final String CRASH_PATH = DEMO_PATH + File.separator + "crash" + File.separator;
 }
