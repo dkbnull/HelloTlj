@@ -2,10 +2,13 @@ package cn.wbnull.hellotlj.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 
 import cn.wbnull.hellotlj.R;
 import cn.wbnull.hellotlj.anno.ActivityLayoutInject;
 import cn.wbnull.hellotlj.presenter.MainPresenter;
+import cn.wbnull.hellotlj.tool.CommonTools;
 import cn.wbnull.hellotlj.view.IMainView;
 
 /**
@@ -17,9 +20,16 @@ import cn.wbnull.hellotlj.view.IMainView;
 @ActivityLayoutInject(R.layout.activity_main)
 public class MainActivity extends BaseMvpActivity<IMainView, MainPresenter> implements IMainView {
 
+    public CountDownTimer timer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (hasPermission()) {
+            initTimer();
+            timeStart();
+        }
     }
 
     @Override
@@ -27,8 +37,29 @@ public class MainActivity extends BaseMvpActivity<IMainView, MainPresenter> impl
         return new MainPresenter();
     }
 
+    private void initTimer() {
+        timer = new CountDownTimer(1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
+
+            @Override
+            public void onFinish() {
+                CommonTools.startNewActivity(LoginActivity.class);
+            }
+        };
+    }
+
+    public void timeStart() {
+        new Handler(getMainLooper()).post(() -> timer.start());
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (hasPermission()) {
+            initTimer();
+        }
     }
 }
