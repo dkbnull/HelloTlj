@@ -10,7 +10,4 @@ import cn.wbnull.hellotlj.view.IMainView;
  */
 public class MainPresenter extends BasePresenter<IMainView> {
 
-    public void tlj() {
-        mView.tlj();
-    }
 }

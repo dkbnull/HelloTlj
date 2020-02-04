@@ -1,10 +1,8 @@
 package cn.wbnull.hellotlj.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
 
-import butterknife.BindView;
-import butterknife.OnClick;
 import cn.wbnull.hellotlj.R;
 import cn.wbnull.hellotlj.anno.ActivityLayoutInject;
 import cn.wbnull.hellotlj.presenter.MainPresenter;
@@ -29,16 +27,8 @@ public class MainActivity extends BaseMvpActivity<IMainView, MainPresenter> impl
         return new MainPresenter();
     }
 
-    @OnClick(R.id.mainTvTlj)
-    public void onClickTlj() {
-        mPresenter.tlj();
-    }
-
-    @BindView(R.id.mainTvTlj)
-    public TextView mainTvTlj;
-
     @Override
-    public void tlj() {
-        mainTvTlj.setText("HelloTlj");
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

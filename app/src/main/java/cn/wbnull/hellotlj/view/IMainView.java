@@ -8,5 +8,4 @@ package cn.wbnull.hellotlj.view;
  */
 public interface IMainView extends IBaseView {
 
-    void tlj();
 }

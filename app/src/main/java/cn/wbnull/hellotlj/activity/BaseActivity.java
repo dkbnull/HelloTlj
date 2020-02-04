@@ -33,9 +33,9 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setHideVirtualKey();
         displayInjectLayout();
         requestPermission();
+        setHideVirtualKey();
 
         ButterKnife.bind(this);
     }
@@ -64,12 +64,16 @@ public class BaseActivity extends AppCompatActivity {
 
     public void requestPermission() {
         //权限检查
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if (!hasPermission()) {
             //申请权限
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }
+    }
+
+    protected boolean hasPermission() {
+        return ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
     }
 
     @Override
