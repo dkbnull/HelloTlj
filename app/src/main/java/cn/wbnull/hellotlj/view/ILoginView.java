@@ -8,4 +8,5 @@ package cn.wbnull.hellotlj.view;
  */
 public interface ILoginView extends IBaseView {
 
+    void loginSuccess();
 }

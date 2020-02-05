@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">HelloTlj</string>
+    <string name="app_name">Hello拖拉机</string>
+
+    <!--activity_login.xml-->
+    <string name="login_et_nickname">昵称</string>
+    <string name="login_et_user">账号</string>
+    <string name="login_et_pwd">密码</string>
+    <string name="login_et_pwd_confirm">确认密码</string>
+    <string name="login_tv_register">立即注册</string>
 </resources>

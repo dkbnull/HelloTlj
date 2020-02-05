@@ -115,6 +115,14 @@ public class CommonTools {
         builder.show();
     }
 
+    public static void showInfoDialog(String message, DialogInterface.OnClickListener clickListener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(App.getContext());
+        builder.setTitle("提示");
+        builder.setMessage(message);
+        builder.setPositiveButton("确定", clickListener);
+        builder.show();
+    }
+
     /**
      * 提示信息弹窗
      *

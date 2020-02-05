@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!--dialog_loading.xml-->
+    <dimen name="loading_dig_progress_margin">20dp</dimen>
+    <dimen name="loading_dig_progress_shape_size">80dp</dimen>
+
+    <!--activity_login.xml-->
+    <dimen name="login_et_user_height">40dp</dimen>
+    <dimen name="login_et_user_padding">60dp</dimen>
+    <dimen name="login_et_pwd_margin">20dp</dimen>
+    <dimen name="login_btn_back_size">16dp</dimen>
+    <dimen name="login_et_user_name_padding">10dp</dimen>
+    <dimen name="login_et_user_name_margin">10dp</dimen>
+    <dimen name="login_tv_version_margin">10dp</dimen>
+
+    <dimen name="login_et_user_font_size">16sp</dimen>
+    <dimen name="login_tv_register_font_size">12sp</dimen>
+    <dimen name="login_tv_version_font_size">16sp</dimen>
+</resources>

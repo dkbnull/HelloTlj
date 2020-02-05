@@ -9,9 +9,9 @@ import androidx.annotation.NonNull;
 
 import cn.wbnull.hellotlj.R;
 import cn.wbnull.hellotlj.anno.ActivityLayoutInject;
-import cn.wbnull.hellotlj.presenter.MainPresenter;
+import cn.wbnull.hellotlj.presenter.BasePresenter;
 import cn.wbnull.hellotlj.tool.CommonTools;
-import cn.wbnull.hellotlj.view.IMainView;
+import cn.wbnull.hellotlj.view.IBaseView;
 
 /**
  * 主界面
@@ -20,7 +20,7 @@ import cn.wbnull.hellotlj.view.IMainView;
  * https://github.com/dkbnull/HelloTlj
  */
 @ActivityLayoutInject(R.layout.activity_main)
-public class MainActivity extends BaseMvpActivity<IMainView, MainPresenter> implements IMainView {
+public class MainActivity extends BaseMvpActivity<IBaseView, BasePresenter<IBaseView>> implements IBaseView {
 
     public CountDownTimer timer;
 
@@ -32,8 +32,8 @@ public class MainActivity extends BaseMvpActivity<IMainView, MainPresenter> impl
     }
 
     @Override
-    protected MainPresenter createPresenter() {
-        return new MainPresenter();
+    protected BasePresenter<IBaseView> createPresenter() {
+        return new BasePresenter<>();
     }
 
     private void initTimer() {

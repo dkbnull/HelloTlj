@@ -3,7 +3,10 @@ package cn.wbnull.hellotlj.activity;
 import android.content.Context;
 import android.os.Bundle;
 
+import cn.wbnull.hellotlj.boot.GlobalCallback;
+import cn.wbnull.hellotlj.boot.SingleCallback;
 import cn.wbnull.hellotlj.presenter.BasePresenter;
+import cn.wbnull.hellotlj.tool.CommonTools;
 import cn.wbnull.hellotlj.view.IBaseView;
 
 /**
@@ -33,11 +36,32 @@ public abstract class BaseMvpActivity<V extends IBaseView, T extends BasePresent
 
     @Override
     public void showLoadingDialog() {
-
+        LoadingDialog.showLoading();
     }
 
     @Override
     public void hideLoadingDialog() {
+        LoadingDialog.dismissLoading();
+    }
 
+    @Override
+    public void showHintDialog(String msg) {
+        CommonTools.showInfoDialog(msg);
+    }
+
+    @Override
+    public void showHintDialog(String msg, SingleCallback callback) {
+        CommonTools.showInfoDialog(msg, (dialog, which) -> {
+            callback.onSuccess("");
+        });
+    }
+
+    @Override
+    public void showHintConfirm(String msg, GlobalCallback<String> callback) {
+        CommonTools.showConfirmDialog(msg, (dialog, which) -> {
+            callback.onSuccess("");
+        }, (dialog, which) -> {
+            callback.onFailure("");
+        });
     }
 }

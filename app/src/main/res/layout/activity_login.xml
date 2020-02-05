@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -15,29 +16,133 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="100dp">
 
         <EditText
             android:id="@+id/loginEtUser"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_height="@dimen/login_et_user_height"
+            android:background="@drawable/login_user"
             android:cursorVisible="true"
+            android:hint="@string/login_et_user"
             android:imeOptions="flagNoExtractUi"
-            android:inputType="textVisiblePassword" />
+            android:inputType="textVisiblePassword"
+            android:paddingStart="@dimen/login_et_user_padding"
+            android:paddingEnd="@dimen/login_et_user_padding"
+            android:textSize="@dimen/login_et_user_font_size" />
 
         <EditText
             android:id="@+id/loginEtPwd"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/login_et_user_height"
+            android:layout_marginTop="@dimen/login_et_pwd_margin"
+            android:background="@drawable/login_pwd"
+            android:hint="@string/login_et_pwd"
             android:imeOptions="flagNoExtractUi"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:paddingStart="@dimen/login_et_user_padding"
+            android:paddingEnd="@dimen/login_et_user_padding"
+            android:textSize="@dimen/login_et_user_font_size" />
 
         <Button
             android:id="@+id/loginBtnLogin"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="登录" />
+            android:layout_height="@dimen/login_et_user_height"
+            android:layout_marginTop="@dimen/login_et_pwd_margin"
+            android:background="@drawable/ic_btn_login" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/loginTvRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/login_et_pwd_margin"
+                android:text="@string/login_tv_register"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/login_tv_register_font_size" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/loginLinearRegister"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:orientation="vertical"
+        android:paddingTop="50dp"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/loginBtnBack"
+            android:layout_width="@dimen/login_btn_back_size"
+            android:layout_height="@dimen/login_btn_back_size"
+            android:background="@drawable/ic_back" />
+
+        <EditText
+            android:id="@+id/loginEtNickName"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/login_et_user_height"
+            android:layout_marginTop="@dimen/login_et_user_name_margin"
+            android:background="@drawable/et_blank"
+            android:cursorVisible="true"
+            android:hint="@string/login_et_nickname"
+            android:imeOptions="flagNoExtractUi"
+            android:inputType="text"
+            android:paddingStart="@dimen/login_et_user_name_padding"
+            android:paddingEnd="@dimen/login_et_user_name_padding"
+            android:textSize="@dimen/login_et_user_font_size" />
+
+        <EditText
+            android:id="@+id/loginEtUserName"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/login_et_user_height"
+            android:layout_marginTop="@dimen/login_et_user_name_margin"
+            android:background="@drawable/et_blank"
+            android:cursorVisible="true"
+            android:hint="@string/login_et_user"
+            android:imeOptions="flagNoExtractUi"
+            android:inputType="textVisiblePassword"
+            android:paddingStart="@dimen/login_et_user_name_padding"
+            android:paddingEnd="@dimen/login_et_user_name_padding"
+            android:textSize="@dimen/login_et_user_font_size" />
+
+        <EditText
+            android:id="@+id/loginEtPwd1"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/login_et_user_height"
+            android:layout_marginTop="@dimen/login_et_user_name_margin"
+            android:background="@drawable/et_blank"
+            android:hint="@string/login_et_pwd"
+            android:imeOptions="flagNoExtractUi"
+            android:inputType="textPassword"
+            android:paddingStart="@dimen/login_et_user_name_padding"
+            android:paddingEnd="@dimen/login_et_user_name_padding"
+            android:textSize="@dimen/login_et_user_font_size" />
+
+        <EditText
+            android:id="@+id/loginEtPwd2"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/login_et_user_height"
+            android:layout_marginTop="@dimen/login_et_user_name_margin"
+            android:background="@drawable/et_blank"
+            android:hint="@string/login_et_pwd_confirm"
+            android:imeOptions="flagNoExtractUi"
+            android:inputType="textPassword"
+            android:paddingStart="@dimen/login_et_user_name_padding"
+            android:paddingEnd="@dimen/login_et_user_name_padding"
+            android:textSize="@dimen/login_et_user_font_size" />
+
+        <Button
+            android:id="@+id/loginBtnRegister"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/login_et_user_height"
+            android:layout_marginTop="@dimen/login_et_user_name_margin"
+            android:background="@drawable/ic_btn_register" />
     </LinearLayout>
 
     <LinearLayout
