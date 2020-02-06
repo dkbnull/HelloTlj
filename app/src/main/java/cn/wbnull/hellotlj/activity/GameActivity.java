@@ -32,6 +32,6 @@ public class GameActivity extends BaseMvpActivity<IGameView, GamePresenter> impl
     protected void onDestroy() {
         super.onDestroy();
 
-        mPresenter.destroy();
+        mPresenter.unregister();
     }
 }

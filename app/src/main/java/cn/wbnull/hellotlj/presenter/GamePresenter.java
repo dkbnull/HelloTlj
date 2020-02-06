@@ -28,12 +28,16 @@ import cn.wbnull.hellotlj.view.IGameView;
  */
 public class GamePresenter extends BasePresenter<IGameView> {
 
-    private LocalBroadcastManager localBroadcastManager;
-    private IntentFilter mIntentFilter;
-    private Intent mServiceIntent;
-    private MessageBackReciver mReciver;
+    private LocalBroadcastManager mLocalBroadcastManager;
+    private BroadcastReceiver mBroadcastReceiver;
 
     public void init() {
+        initReceiver();
+        initManager();
+        initSocket();
+    }
+
+    private void initSocket() {
         ThreadFactoryUtils.getExecutorService("socket-%d").execute(
                 () -> {
                     SocketUtils.connect();
@@ -44,26 +48,57 @@ public class GamePresenter extends BasePresenter<IGameView> {
         JSONObject request = new JSONObject();
         request.put("method", GameService.GAME_INFO);
         request.put("data", requestData);
+
         ThreadFactoryUtils.getExecutorService("socket-%d").execute(
                 () -> {
+                    //如果没有连接上Socket，等待
                     while (!SocketUtils.connect) {
 
                     }
 
                     SocketUtils.sendMessage(request.toString());
                 });
-
-        initVariables();
-        localBroadcastManager = LocalBroadcastManager.getInstance(App.getContext());
-        mIntentFilter = new IntentFilter();
-        mIntentFilter.addAction(SocketUtils.SOCKET_HEART_ACTION);
-        mIntentFilter.addAction(SocketUtils.SOCKET_ACTION);
-        localBroadcastManager.registerReceiver(mReciver, mIntentFilter);
     }
 
-    public void destroy() {
+    private void initManager() {
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(App.getContext());
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(SocketUtils.SOCKET_HEART_ACTION);
+        intentFilter.addAction(SocketUtils.SOCKET_ACTION);
+        mLocalBroadcastManager.registerReceiver(mBroadcastReceiver, intentFilter);
+    }
+
+    private void initReceiver() {
+        mBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (SocketUtils.SOCKET_ACTION.equals(intent.getAction())) {
+                    String method = intent.getStringExtra("method");
+                    if (GameService.GAME_INFO.equals(method)) {
+                        gameInfoUpdate(intent);
+                    }
+                }
+            }
+        };
+    }
+
+    private void gameInfoUpdate(Intent intent) {
+        String data = intent.getStringExtra("data");
+        AppResponse appResponse = JSONObject.parseObject(data, AppResponse.class);
+
+        if (appResponse.isSuccess()) {
+            GameJoinResponseData responseData = JSONObject.parseObject(appResponse.getData().toString(),
+                    GameJoinResponseData.class);
+
+            mView.showHintDialog(responseData.toString());
+        } else {
+            mView.showHintDialog(appResponse.getMessage());
+        }
+    }
+
+    public void unregister() {
         SocketUtils.disconnect();
-        localBroadcastManager.unregisterReceiver(mReciver);
+        mLocalBroadcastManager.unregisterReceiver(mBroadcastReceiver);
     }
 
     public void info() {
@@ -81,46 +116,4 @@ public class GamePresenter extends BasePresenter<IGameView> {
             }
         });
     }
-
-    protected void initVariables() {
-        mReciver = new MessageBackReciver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (SocketUtils.SOCKET_ACTION.equals(intent.getAction())) {
-                    String method = intent.getStringExtra("method");
-                    if (GameService.GAME_INFO.equals(method)) {
-                        String data = intent.getStringExtra("data");
-                        AppResponse appResponse = JSONObject.parseObject(data, AppResponse.class);
-
-                        if (appResponse.isSuccess()) {
-                            GameJoinResponseData responseData = JSONObject.parseObject(appResponse.getData().toString(),
-                                    GameJoinResponseData.class);
-
-                            mView.showHintDialog(responseData.toString());
-                        } else {
-                            mView.showHintDialog(appResponse.getMessage());
-                        }
-                    }
-                }
-            }
-        };
-    }
-
-    public abstract class MessageBackReciver extends BroadcastReceiver {
-        @Override
-        public abstract void onReceive(Context context, Intent intent);
-    }
-
-//    private Messenger mMessenger = new Messenger(new Handler() {
-//        @Override
-//        public void handleMessage(Message msgFromServer) {
-//            switch (msgFromServer.what) {
-//                case MSG_SUM:
-//                    TextView tv = (TextView) mLyContainer.findViewById(msgFromServer.arg1);
-//                    tv.setText(tv.getText() + "=>" + msgFromServer.arg2);
-//                    break;
-//            }
-//            super.handleMessage(msgFromServer);
-//        }
-//    });
 }
