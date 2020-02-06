@@ -1,4 +1,4 @@
-package cn.wbnull.hellotlj.service;
+package cn.wbnull.hellotlj.util;
 
 import java.util.concurrent.TimeUnit;
 
@@ -13,12 +13,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.fastjson.FastJsonConverterFactory;
 
 /**
- * 网络请求工具
+ * 网络请求工具类
  *
  * @author dukunbiao(null)  2020-02-05
  * https://github.com/dkbnull/HelloTlj
  */
-public class WebService {
+public class WebUtils {
 
     private static OkHttpClient okHttpClient;
     private static Retrofit retrofit;

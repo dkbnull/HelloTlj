@@ -16,8 +16,6 @@ import java.util.concurrent.TimeUnit;
 public class ThreadFactoryUtils {
 
     public static ExecutorService getExecutorService(String nameFormat) {
-
-
         return new ThreadPoolExecutor(1, 1,
                 0L, TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<Runnable>(1024),

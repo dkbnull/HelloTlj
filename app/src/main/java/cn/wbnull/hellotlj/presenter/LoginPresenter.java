@@ -3,7 +3,7 @@ package cn.wbnull.hellotlj.presenter;
 import cn.wbnull.hellotlj.boot.GlobalCallback;
 import cn.wbnull.hellotlj.config.AppConfig;
 import cn.wbnull.hellotlj.model.user.RegisterResponseData;
-import cn.wbnull.hellotlj.service.UserService;
+import cn.wbnull.hellotlj.service.user.UserService;
 import cn.wbnull.hellotlj.view.ILoginView;
 import cn.wbnull.helloutil.util.StringUtils;
 

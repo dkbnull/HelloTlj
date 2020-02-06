@@ -10,20 +10,12 @@
         android:layout_centerVertical="true"
         android:orientation="horizontal">
 
-        <Button
+        <TextView
             android:id="@+id/menuBtnCreate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="50dp"
-            android:text="新建房间"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/menuBtnJoin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="50dp"
-            android:text="加入房间"
+            android:text="当前房间0人"
             android:textSize="20sp" />
     </LinearLayout>
 </RelativeLayout>

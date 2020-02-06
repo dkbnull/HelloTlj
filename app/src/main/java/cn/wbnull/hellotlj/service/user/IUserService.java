@@ -1,4 +1,4 @@
-package cn.wbnull.hellotlj.service;
+package cn.wbnull.hellotlj.service.user;
 
 import cn.wbnull.hellotlj.model.AppRequest;
 import cn.wbnull.hellotlj.model.AppResponse;
