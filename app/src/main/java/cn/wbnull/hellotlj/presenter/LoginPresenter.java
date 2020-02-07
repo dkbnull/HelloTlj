@@ -29,12 +29,7 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
         UserService.register(nickname, username, password, new GlobalCallback<RegisterResponseData>() {
             @Override
             public void onSuccess(RegisterResponseData registerResponseData) {
-                AppConfig.setUserId(registerResponseData.getId());
-                AppConfig.setNickname(registerResponseData.getNickname());
-                AppConfig.setScore(registerResponseData.getScore().toString());
-                AppConfig.setWinNum(registerResponseData.getWinNum().toString());
-                AppConfig.setFailNum(registerResponseData.getFailNum().toString());
-                AppConfig.setDogfallNum(registerResponseData.getDogfallNum().toString());
+                saveUserInfo(registerResponseData);
 
                 mView.showHintDialog("注册成功", (msg) -> {
                     mView.hideLoadingDialog();
@@ -60,6 +55,8 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
         UserService.login(username, password, new GlobalCallback<RegisterResponseData>() {
             @Override
             public void onSuccess(RegisterResponseData registerResponseData) {
+                saveUserInfo(registerResponseData);
+
                 mView.hideLoadingDialog();
                 mView.loginSuccess();
             }
@@ -70,5 +67,14 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
                 mView.hideLoadingDialog();
             }
         });
+    }
+
+    private void saveUserInfo(RegisterResponseData registerResponseData) {
+        AppConfig.setUserId(registerResponseData.getUserId());
+        AppConfig.setNickname(registerResponseData.getNickname());
+        AppConfig.setScore(registerResponseData.getScore().toString());
+        AppConfig.setWinNum(registerResponseData.getWinNum().toString());
+        AppConfig.setFailNum(registerResponseData.getFailNum().toString());
+        AppConfig.setDogfallNum(registerResponseData.getDogfallNum().toString());
     }
 }

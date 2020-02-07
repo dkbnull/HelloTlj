@@ -17,4 +17,8 @@ public class Gametable {
     private String userId;
     private String status;
     private String owner;
+
+    public boolean isOwner() {
+        return "1".equals(this.owner);
+    }
 }

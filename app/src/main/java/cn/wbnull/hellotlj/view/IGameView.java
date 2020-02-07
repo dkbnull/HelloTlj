@@ -1,5 +1,7 @@
 package cn.wbnull.hellotlj.view;
 
+import cn.wbnull.hellotlj.model.GameItemModel;
+
 /**
  * 游戏界面 View
  *
@@ -8,4 +10,9 @@ package cn.wbnull.hellotlj.view;
  */
 public interface IGameView extends IBaseView {
 
+    void showBtnStart();
+
+    void updateNowUser(GameItemModel gameItemModel);
+
+    void addGameUser(GameItemModel gameItemModel);
 }

@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class RegisterResponseData {
 
-    private String id;
+    private String userId;
     private String nickname;
     private Integer score;
     private Integer winNum;

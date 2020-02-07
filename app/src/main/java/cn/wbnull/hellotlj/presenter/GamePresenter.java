@@ -9,12 +9,17 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.alibaba.fastjson.JSONObject;
 
+import java.util.List;
+
 import cn.wbnull.hellotlj.App;
 import cn.wbnull.hellotlj.boot.GlobalCallback;
+import cn.wbnull.hellotlj.config.AppConfig;
 import cn.wbnull.hellotlj.model.AppRequest;
 import cn.wbnull.hellotlj.model.AppResponse;
+import cn.wbnull.hellotlj.model.GameItemModel;
 import cn.wbnull.hellotlj.model.game.GameJoinRequestData;
 import cn.wbnull.hellotlj.model.game.GameJoinResponseData;
+import cn.wbnull.hellotlj.model.user.RegisterResponseData;
 import cn.wbnull.hellotlj.service.game.GameService;
 import cn.wbnull.hellotlj.util.SocketUtils;
 import cn.wbnull.hellotlj.util.ThreadFactoryUtils;
@@ -89,8 +94,20 @@ public class GamePresenter extends BasePresenter<IGameView> {
         if (appResponse.isSuccess()) {
             GameJoinResponseData responseData = JSONObject.parseObject(appResponse.getData().toString(),
                     GameJoinResponseData.class);
+            List<RegisterResponseData> userinfos = responseData.getUserinfos();
+            for (RegisterResponseData userinfo : userinfos) {
+                if (userinfo == null) {
+                    continue;
+                }
 
-            mView.showHintDialog(responseData.toString());
+                GameItemModel gameItemModel = GameItemModel.build(userinfo);
+
+                if (userinfo.getUserId().equals(AppConfig.getUserId())) {
+                    mView.updateNowUser(gameItemModel);
+                } else {
+                    mView.addGameUser(gameItemModel);
+                }
+            }
         } else {
             mView.showHintDialog(appResponse.getMessage());
         }
@@ -105,7 +122,10 @@ public class GamePresenter extends BasePresenter<IGameView> {
         mView.showLoadingDialog();
         GameService.info("1000", new GlobalCallback<GameJoinResponseData>() {
             @Override
-            public void onSuccess(GameJoinResponseData registerResponseData) {
+            public void onSuccess(GameJoinResponseData gameJoinResponseData) {
+                if (gameJoinResponseData.getGametable().isOwner()) {
+                    mView.showBtnStart();
+                }
                 mView.hideLoadingDialog();
             }
 
