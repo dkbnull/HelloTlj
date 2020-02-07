@@ -53,3 +53,13 @@ dependencies {
 
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.10'
 }
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+android.applicationVariants.all { variant ->
+    variant.outputs.all {
+        outputFileName = "HelloTlj-${variant.versionName}.${variant.versionCode}_${variant.buildType.name}.apk"
+    }
+}

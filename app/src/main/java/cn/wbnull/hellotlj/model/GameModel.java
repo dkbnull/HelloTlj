@@ -1,5 +1,7 @@
 package cn.wbnull.hellotlj.model;
 
+import com.alibaba.fastjson.JSONArray;
+
 /**
  * 游戏数据
  *
@@ -9,6 +11,7 @@ package cn.wbnull.hellotlj.model;
 public class GameModel {
 
     private static String tableId;
+    private static JSONArray pokers;
 
     public static String getTableId() {
         return tableId;
@@ -16,5 +19,13 @@ public class GameModel {
 
     public static void setTableId(String tableId) {
         GameModel.tableId = tableId;
+    }
+
+    public static JSONArray getPokers() {
+        return pokers;
+    }
+
+    public static void setPokers(JSONArray pokers) {
+        GameModel.pokers = pokers;
     }
 }

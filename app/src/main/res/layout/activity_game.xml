@@ -34,13 +34,26 @@
         android:layout_weight="2"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/gameBtnStart"
+        <LinearLayout
+            android:id="@+id/gameLinearBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="开始"
-            android:textSize="20sp"
-            android:visibility="invisible" />
+            android:visibility="invisible">
+
+            <Button
+                android:id="@+id/gameBtnStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="开始"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/gameBtnShow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="亮牌"
+                android:textSize="20sp" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/gameTvUser"

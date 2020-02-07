@@ -2,7 +2,7 @@ package cn.wbnull.hellotlj.activity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,8 +30,8 @@ public class GameActivity extends BaseMvpActivity<IGameView, GamePresenter> impl
     @BindView(R.id.gameRvUser)
     public RecyclerView gameRvUser;
 
-    @BindView(R.id.gameBtnStart)
-    public Button gameBtnStart;
+    @BindView(R.id.gameLinearBtn)
+    public LinearLayout gameLinearBtn;
 
     @BindView(R.id.gameTvUser)
     public TextView gameTvUser;
@@ -73,9 +73,14 @@ public class GameActivity extends BaseMvpActivity<IGameView, GamePresenter> impl
         mPresenter.start();
     }
 
+    @OnClick(R.id.gameBtnShow)
+    public void onClickShow() {
+        mPresenter.show();
+    }
+
     @Override
     public void showBtnStart() {
-        gameBtnStart.setVisibility(View.VISIBLE);
+        gameLinearBtn.setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -10,6 +10,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import java.util.Arrays;
 import java.util.List;
 
 import cn.wbnull.hellotlj.App;
@@ -21,6 +22,7 @@ import cn.wbnull.hellotlj.model.GameItemModel;
 import cn.wbnull.hellotlj.model.game.GameJoinRequestData;
 import cn.wbnull.hellotlj.model.game.GameJoinResponseData;
 import cn.wbnull.hellotlj.model.game.GameStartResponseData;
+import cn.wbnull.hellotlj.model.game.Tableinfo;
 import cn.wbnull.hellotlj.model.user.RegisterResponseData;
 import cn.wbnull.hellotlj.service.game.GameService;
 import cn.wbnull.hellotlj.util.SocketUtils;
@@ -85,6 +87,8 @@ public class GamePresenter extends BasePresenter<IGameView> {
                         gameInfoUpdate(intent);
                     } else if (GameService.GAME_START.equals(method)) {
                         gamePokerInfoUpdate(intent);
+                    } else if (GameService.GAME_OVER.equals(method)) {
+                        gameOverUpdate(intent);
                     }
                 }
             }
@@ -135,6 +139,33 @@ public class GamePresenter extends BasePresenter<IGameView> {
                 if (gameData.getUserId().equals(AppConfig.getUserId())) {
                     mView.updateNowUser(gameItemModel);
                 } else {
+                    String[] pokers = {"扑克", "扑克", "扑克"};
+                    gameItemModel.setPokers(Arrays.asList(pokers));
+                    mView.updateGameUser(gameItemModel);
+                }
+            }
+        } else {
+            mView.showHintDialog(appResponse.getMessage());
+        }
+    }
+
+    private void gameOverUpdate(Intent intent) {
+        String data = intent.getStringExtra("data");
+        AppResponse appResponse = JSONObject.parseObject(data, AppResponse.class);
+
+        if (appResponse.isSuccess()) {
+            JSONArray responseData = JSONObject.parseArray(appResponse.getData().toString());
+            for (Object responseItem : responseData) {
+                if (responseItem == null) {
+                    continue;
+                }
+
+                Tableinfo tableinfo = JSONObject.parseObject(responseItem.toString(), Tableinfo.class);
+                GameItemModel gameItemModel = GameItemModel.build(tableinfo);
+
+                if (gameItemModel.getUserId().equals(AppConfig.getUserId())) {
+                    mView.updateNowUser(gameItemModel);
+                } else {
                     mView.updateGameUser(gameItemModel);
                 }
             }
@@ -165,6 +196,23 @@ public class GamePresenter extends BasePresenter<IGameView> {
                 mView.hideLoadingDialog();
             }
         });
+    }
+
+    public void show() {
+        AppRequest<GameJoinRequestData> requestData = GameJoinRequestData.buildTable("1000");
+        JSONObject request = new JSONObject();
+        request.put("method", GameService.GAME_OVER);
+        request.put("data", requestData);
+
+        ThreadFactoryUtils.getExecutorService("socket-%d").execute(
+                () -> {
+                    //如果没有连接上Socket，等待
+                    while (!SocketUtils.connect) {
+
+                    }
+
+                    SocketUtils.sendMessage(request.toString());
+                });
     }
 
     public void start() {

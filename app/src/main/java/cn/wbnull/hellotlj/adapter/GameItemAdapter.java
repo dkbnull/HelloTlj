@@ -62,6 +62,12 @@ public class GameItemAdapter extends RecyclerView.Adapter<GameItemAdapter.ListVi
     }
 
     public void addItem(GameItemModel gameItemModel) {
+        for (GameItemModel itemModel : gameItemModels) {
+            if (itemModel.getUserId().equals(gameItemModel.getUserId())) {
+                return;
+            }
+        }
+
         gameItemModels.add(gameItemModel);
         notifyDataSetChanged();
     }
