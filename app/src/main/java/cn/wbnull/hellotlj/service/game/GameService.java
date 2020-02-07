@@ -17,6 +17,7 @@ import retrofit2.Call;
 public class GameService {
 
     public static final String GAME_INFO = "/game/info";
+    public static final String GAME_START = "/game/start";
 
     public static void join(final String tableId, final GlobalCallback<GameJoinResponseData> callback) {
         AppRequest<GameJoinRequestData> requestData = GameJoinRequestData.build(tableId);

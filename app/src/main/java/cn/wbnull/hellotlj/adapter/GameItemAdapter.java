@@ -13,6 +13,7 @@ import java.util.List;
 
 import cn.wbnull.hellotlj.R;
 import cn.wbnull.hellotlj.model.GameItemModel;
+import cn.wbnull.helloutil.util.StringUtils;
 import lombok.NonNull;
 
 /**
@@ -44,7 +45,9 @@ public class GameItemAdapter extends RecyclerView.Adapter<GameItemAdapter.ListVi
     public void onBindViewHolder(@NonNull ListViewHolder listViewHolder, int i) {
         GameItemModel gameItemModel = gameItemModels.get(i);
 
-        listViewHolder.gameItemTvUser.setText(gameItemModel.getNickname());
+        if (!StringUtils.isEmpty(gameItemModel.getNickname())) {
+            listViewHolder.gameItemTvUser.setText(gameItemModel.getNickname());
+        }
         listViewHolder.gameItemTvPoker.setText(gameItemModel.getPokersFormat());
     }
 
@@ -60,6 +63,16 @@ public class GameItemAdapter extends RecyclerView.Adapter<GameItemAdapter.ListVi
 
     public void addItem(GameItemModel gameItemModel) {
         gameItemModels.add(gameItemModel);
+        notifyDataSetChanged();
+    }
+
+    public void updateItem(GameItemModel gameItemModel) {
+        for (GameItemModel itemModel : gameItemModels) {
+            if (itemModel.getUserId().equals(gameItemModel.getUserId())) {
+                itemModel.setPokers(gameItemModel.getPokers());
+            }
+        }
+
         notifyDataSetChanged();
     }
 

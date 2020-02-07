@@ -2,6 +2,7 @@ package cn.wbnull.hellotlj.model;
 
 import java.util.List;
 
+import cn.wbnull.hellotlj.model.game.GameStartResponseData;
 import cn.wbnull.hellotlj.model.user.RegisterResponseData;
 import lombok.Data;
 
@@ -26,6 +27,14 @@ public class GameItemModel {
         GameItemModel gameItemModel = new GameItemModel();
         gameItemModel.userId = responseData.getUserId();
         gameItemModel.nickname = responseData.getNickname();
+
+        return gameItemModel;
+    }
+
+    public static GameItemModel build(GameStartResponseData gameData) {
+        GameItemModel gameItemModel = new GameItemModel();
+        gameItemModel.userId = gameData.getUserId();
+        gameItemModel.pokers = gameData.getPokers();
 
         return gameItemModel;
     }

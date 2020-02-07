@@ -16,6 +16,7 @@ import cn.wbnull.hellotlj.anno.ActivityLayoutInject;
 import cn.wbnull.hellotlj.model.GameItemModel;
 import cn.wbnull.hellotlj.presenter.GamePresenter;
 import cn.wbnull.hellotlj.view.IGameView;
+import cn.wbnull.helloutil.util.StringUtils;
 
 /**
  * 游戏界面
@@ -69,7 +70,7 @@ public class GameActivity extends BaseMvpActivity<IGameView, GamePresenter> impl
 
     @OnClick(R.id.gameBtnStart)
     public void onClickStart() {
-
+        mPresenter.start();
     }
 
     @Override
@@ -79,12 +80,20 @@ public class GameActivity extends BaseMvpActivity<IGameView, GamePresenter> impl
 
     @Override
     public void updateNowUser(GameItemModel gameItemModel) {
-        gameTvUser.setText(gameItemModel.getNickname());
+        if (!StringUtils.isEmpty(gameItemModel.getNickname())) {
+            gameTvUser.setText(gameItemModel.getNickname());
+        }
+
         gameTvPoker.setText(gameItemModel.getPokersFormat());
     }
 
     @Override
     public void addGameUser(GameItemModel gameItemModel) {
         gameItemAdapter.addItem(gameItemModel);
+    }
+
+    @Override
+    public void updateGameUser(GameItemModel gameItemModel) {
+        gameItemAdapter.updateItem(gameItemModel);
     }
 }

@@ -15,4 +15,6 @@ public interface IGameView extends IBaseView {
     void updateNowUser(GameItemModel gameItemModel);
 
     void addGameUser(GameItemModel gameItemModel);
+
+    void updateGameUser(GameItemModel gameItemModel);
 }

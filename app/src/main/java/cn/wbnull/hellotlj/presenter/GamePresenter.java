@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import java.util.List;
@@ -19,6 +20,7 @@ import cn.wbnull.hellotlj.model.AppResponse;
 import cn.wbnull.hellotlj.model.GameItemModel;
 import cn.wbnull.hellotlj.model.game.GameJoinRequestData;
 import cn.wbnull.hellotlj.model.game.GameJoinResponseData;
+import cn.wbnull.hellotlj.model.game.GameStartResponseData;
 import cn.wbnull.hellotlj.model.user.RegisterResponseData;
 import cn.wbnull.hellotlj.service.game.GameService;
 import cn.wbnull.hellotlj.util.SocketUtils;
@@ -81,6 +83,8 @@ public class GamePresenter extends BasePresenter<IGameView> {
                     String method = intent.getStringExtra("method");
                     if (GameService.GAME_INFO.equals(method)) {
                         gameInfoUpdate(intent);
+                    } else if (GameService.GAME_START.equals(method)) {
+                        gamePokerInfoUpdate(intent);
                     }
                 }
             }
@@ -113,6 +117,32 @@ public class GamePresenter extends BasePresenter<IGameView> {
         }
     }
 
+    private void gamePokerInfoUpdate(Intent intent) {
+        String data = intent.getStringExtra("data");
+        AppResponse appResponse = JSONObject.parseObject(data, AppResponse.class);
+
+        if (appResponse.isSuccess()) {
+            JSONArray responseData = JSONObject.parseArray(appResponse.getData().toString());
+            for (Object responseItem : responseData) {
+                if (responseItem == null) {
+                    continue;
+                }
+
+                GameStartResponseData gameData = JSONObject.parseObject(responseItem.toString(),
+                        GameStartResponseData.class);
+                GameItemModel gameItemModel = GameItemModel.build(gameData);
+
+                if (gameData.getUserId().equals(AppConfig.getUserId())) {
+                    mView.updateNowUser(gameItemModel);
+                } else {
+                    mView.updateGameUser(gameItemModel);
+                }
+            }
+        } else {
+            mView.showHintDialog(appResponse.getMessage());
+        }
+    }
+
     public void unregister() {
         SocketUtils.disconnect();
         mLocalBroadcastManager.unregisterReceiver(mBroadcastReceiver);
@@ -135,5 +165,22 @@ public class GamePresenter extends BasePresenter<IGameView> {
                 mView.hideLoadingDialog();
             }
         });
+    }
+
+    public void start() {
+        AppRequest<GameJoinRequestData> requestData = GameJoinRequestData.buildTable("1000");
+        JSONObject request = new JSONObject();
+        request.put("method", GameService.GAME_START);
+        request.put("data", requestData);
+
+        ThreadFactoryUtils.getExecutorService("socket-%d").execute(
+                () -> {
+                    //如果没有连接上Socket，等待
+                    while (!SocketUtils.connect) {
+
+                    }
+
+                    SocketUtils.sendMessage(request.toString());
+                });
     }
 }
